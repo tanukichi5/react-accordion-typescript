@@ -2,8 +2,8 @@ import React, {useState, useContext, useRef, useEffect} from 'react'
 import { Provider, Context } from "./ItemContext";
 import { Context as  accordionContext} from "./AccordionContext";
 
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 
 const AccordionTrigger: React.FC = (props) => {
@@ -14,7 +14,7 @@ const AccordionTrigger: React.FC = (props) => {
   const itemExpanded = context.itemState['isExpanded']
   
   const toggleAccordion = () => {
-    console.log(itemExpanded)
+    // console.log(itemExpanded)
 
     //アイテムの状態を変更
     context.setItemState( itemState =>({
@@ -50,7 +50,7 @@ const AccordionTrigger: React.FC = (props) => {
   return (
     <button className="AccordionTrigger" type="button" onClick={toggleAccordion} {...context.triggerAttributes}>
       {props.children}
-      {/* <FontAwesomeIcon icon={itemExpanded ? faMinus : faPlus} /> */}
+      <FontAwesomeIcon icon={itemExpanded ? faMinus : faPlus} />
     </button>
   );
 }

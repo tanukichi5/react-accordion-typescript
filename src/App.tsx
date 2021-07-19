@@ -20,10 +20,19 @@ const pokemon_1 = [
 ]
 
 function App() {
+
+  function open() {
+    console.log('開いた')
+  }
+  function close() {
+    console.log('閉じた')
+  }
+
   return (
     <div className="App">
-      <Accordion content={pokemon_1} defaultExpandedPanels={[0]} />
-      <header className="App-header">
+      <Accordion content={pokemon_1} defaultExpandedPanels={[0]} onOpen={open} onClose={close} />
+      <Accordion content={pokemon_1} defaultExpandedPanels={[0,2]} multipleExpanded={false} />
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
@@ -36,7 +45,7 @@ function App() {
         >
           Learn React
         </a>
-      </header>
+      </header> */}
     </div>
   );
 }

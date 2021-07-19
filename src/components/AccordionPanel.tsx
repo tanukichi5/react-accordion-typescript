@@ -9,18 +9,17 @@ const AccordionPanel: React.FC = (props) => {
 
   
   useEffect(() => {
-    // console.log(context.itemState)
     //パネルのDOMを取得
     context.setItemState( itemState =>({
       ...itemState,
       panelDOM: paneleElement
     }));
-  }, [context.itemState['index']]);
+  }, []);
 
   // console.log(paneleElement); 
 
   return (
-    <div ref={paneleElement} className="AccordionPanel" {...context.panelAttributes}>
+    <div ref={paneleElement} className="AccordionPanel" style={context.panelStyles} {...context.panelAttributes}>
       {props.children}
     </div>
   );

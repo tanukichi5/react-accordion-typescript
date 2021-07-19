@@ -1,5 +1,5 @@
 import React, { useState, createContext } from "react";
-// import { useDebounceFn } from "../utils/useDebounceFn";
+import { useDebounceFn } from "../utils/useDebounceFn";
 
 
 // const hoge = new Set();
@@ -19,15 +19,10 @@ export interface InjectedAccordionState {
   notTransition?: boolean;
   multipleExpanded?: boolean;
   checkWindowResize?: number;
-  onOpen?: () => void;
-  onClose?: () => void;
+  onOpen?: (panel: React.RefObject<HTMLInputElement> | null) => void;
+  onClose?: (panel: React.RefObject<HTMLInputElement> | null) => void;
   content: Contents;
 }
-
-// export interface InjectedContext {
-//   accordionState: InjectedAccordionState;
-//   setAccordionState: (accordionState:InjectedAccordionState) => void;
-// }
 
 export const Context = createContext(
   {} as {
@@ -36,14 +31,6 @@ export const Context = createContext(
   }
 );
 
-// export type GlobalContent = {
-//   copy: string
-//   setCopy:(c: string) => void
-// }
-// export const MyGlobalContext = createContext<GlobalContent>({
-// copy: 'Hello World', // set a default value
-// setCopy: () => {},
-// })
 
 const Provider: React.FC = (props) => {
 
@@ -60,25 +47,25 @@ const Provider: React.FC = (props) => {
     content: []
   });
 
-  // //パネルの高さを揃えるリサイズイベント
-  // const windowResizePanelHeightRecalculation = () => {
-  //   setAccordionState((accordionState) => ({
-  //     ...accordionState,
-  //     checkWindowResize: window.innerWidth,
-  //   }));
-  // };
-  // //リサイズイベントを間引く処理
-  // const [onResizeHandler] = useDebounceFn(
-  //   windowResizePanelHeightRecalculation,
-  //   500
-  // );
-  // //リサイズイベントを登録
-  // const panelHeightRemoveEvent = attachEvent(
-  //   window,
-  //   "resize",
-  //   onResizeHandler.bind(this)
-  // );
-  // panelHeightRemoveEvent.addEvent()
+  //パネルの高さを揃えるリサイズイベント
+  const windowResizePanelHeightRecalculation = () => {
+    setAccordionState((accordionState) => ({
+      ...accordionState,
+      checkWindowResize: window.innerWidth,
+    }));
+  };
+  //リサイズイベントを間引く処理
+  const [onResizeHandler] = useDebounceFn(
+    windowResizePanelHeightRecalculation,
+    500
+  );
+  //リサイズイベントを登録
+  const panelHeightRemoveEvent = attachEvent(
+    window,
+    "resize",
+    onResizeHandler.bind(this)
+  );
+  panelHeightRemoveEvent.addEvent()
 
   return (
     <Context.Provider
@@ -95,13 +82,13 @@ const Provider: React.FC = (props) => {
 export default Provider;
 
 
-// function attachEvent(element, type, listener, options) {
-//   return {
-//     addEvent() {
-//       element.addEventListener(type, listener, options);
-//     },
-//     removeEvent() {
-//       element.removeEventListener(type, listener);
-//     },
-//   };
-// }
+function attachEvent(element: any, type: any, listener: any, options?: any) {
+  return {
+    addEvent() {
+      element.addEventListener(type, listener, options);
+    },
+    removeEvent() {
+      element.removeEventListener(type, listener);
+    },
+  };
+}

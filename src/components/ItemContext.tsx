@@ -1,21 +1,3 @@
-
-// import React from "react";
-
-// const hoge: React.FC = () => {
-//   // const childrenWithProps = React.Children.map(props.children, (child, i) => {
-//   //   // 各子要素をクローンしつつ index を渡す
-//   //   // console.log(i)
-//   //   return React.cloneElement(child, { panelIndex: i });
-//   // });
-
-//   return (
-//     <>
-//     </>
-//   );
-// };
-
-// export default hoge;
-
 import React, {
   useState,
   createContext,
@@ -23,6 +5,7 @@ import React, {
   useRef,
   useContext,
 } from "react";
+import * as CSS from 'csstype';
 import { Context as accordionContext } from "./AccordionContext";
 
 export interface Props {
@@ -33,7 +16,7 @@ export interface Props {
 export interface InjectedItemState {
   isExpanded: boolean,
   index: number | null,
-  panelDOM: any,
+  panelDOM: React.RefObject<HTMLInputElement> | null,
 }
 
 //triggerAttributesのインターフェース
@@ -48,29 +31,14 @@ interface InjectedPanelAttributes {
   "aria-hidden": boolean,
 }
 
-//panelAttributesのインターフェース
+//panelStylesのインターフェース
 interface InjectedPanelStyles {
-  height: number,
-  // visibility: string,
-  // boxSizing: string,
-  // overflow: string,
-  // transition: string,
+  height: CSS.Property.Height,
+  visibility: CSS.Property.Visibility,
+  boxSizing: CSS.Property.BoxSizing,
+  overflow: CSS.Property.Overflow,
+  transition: CSS.Property.Transition,
 }
-
-//itemStateの初期値
-
-
-
-// export interface InjectedContext {
-//   itemState: InjectedItemState;
-//   setItemState: (itemState: InjectedItemState) => void,
-//   triggerAttributes: InjectedTriggerAttributes;
-//   setTriggerAttributes: (triggerAttributes: InjectedTriggerAttributes) => void;
-//   panelAttributes: InjectedPanelAttributes;
-//   setPanelAttributes: (panelAttributes: InjectedPanelAttributes) => void;
-// }
-
-// type Contents = InjectedContext: Object
 
 export const Context = createContext(
   {} as {
@@ -133,13 +101,13 @@ export const Provider: React.FC<Props> = (props) => {
 
   //パネルのスタイル
   const [panelStyles, setPanelStyles] = useState<InjectedPanelStyles>({
-    height: itemState["isExpanded"] ? 100 : 0,
-    // visibility: itemState["isExpanded"] ? "visible" : "hidden",
-    // boxSizing: "border-box",
-    // overflow: "hidden",
-    // transition: rootContext.accordionState.notTransition
-    //   ? ""
-    //   : `height ${rootContext.accordionState.duration} ${rootContext.accordionState.easing}, visibility ${rootContext.accordionState.duration}`,
+    height: itemState["isExpanded"] ? getPanelHeight(itemState.panelDOM) : 0,
+    visibility: itemState["isExpanded"] ? "visible" : "hidden",
+    boxSizing: "border-box",
+    overflow: "hidden",
+    transition: rootContext.accordionState.notTransition
+      ? ""
+      : `height ${rootContext.accordionState.duration} ${rootContext.accordionState.easing}, visibility ${rootContext.accordionState.duration}`,
   });
 
   //アコーディオンの開閉状態が変更されたら発火
@@ -158,25 +126,75 @@ export const Provider: React.FC<Props> = (props) => {
         ...panelAttributes,
         "aria-hidden": itemState["isExpanded"] ? false : true,
       }));
-      // setPanelStyles((panelStyles) => ({
-      //   ...panelStyles,
-      //   height: itemState["isExpanded"]
-      //     ? getPanelHeight(itemState.panelDOM)
-      //     : 0,
-      //   visibility: itemState["isExpanded"] ? "visible" : "hidden",
-      // }));
+      setPanelStyles((panelStyles) => ({
+        ...panelStyles,
+        height: itemState["isExpanded"]
+          ? getPanelHeight(itemState.panelDOM)
+          : 0,
+        visibility: itemState["isExpanded"] ? "visible" : "hidden",
+      }));
 
       //開閉時のコールバック関数実行
-      // if (itemState["isExpanded"]) {
-      //   onOpen(itemState.panelDOM);
-      // } else {
-      //   onClose(itemState.panelDOM);
-      // }
+      if (itemState["isExpanded"]) {
+        if(onOpen != undefined)
+        onOpen(itemState.panelDOM);
+      } else {
+        if(onClose != undefined)
+        onClose(itemState.panelDOM);
+      }
 
     } else {
       renderFlgRef.current = true;
     }
   }, [itemState["isExpanded"]]);
+
+  //パネルDOM取得時に高さ調整
+  useEffect(() => {
+    // console.log('パネルDOM取得')
+    setPanelStyles((panelStyles) => ({
+      ...panelStyles,
+      height: itemState["isExpanded"] ? getPanelHeight(itemState.panelDOM) : 0,
+      visibility: itemState["isExpanded"] ? "visible" : "hidden",
+    }));
+    // console.log(rootContext.accordionState['expandedPanels'].has(itemState.index));
+  }, [itemState["panelDOM"]]);
+
+  //multipleExpandedの処理
+  //falseは自分以外閉じる
+  useEffect(() => {
+    if (renderFlgRefRoot.current) {
+      if (rootContext.accordionState["expandedPanels"] != undefined)
+      if (rootContext.accordionState["expandedPanels"].has(itemState.index)) {
+        setItemState((itemState) => ({
+          ...itemState,
+          isExpanded: true,
+        }));
+      } else {
+        setItemState((itemState) => ({
+          ...itemState,
+          isExpanded: false,
+        }));
+      }
+    } else {
+      renderFlgRefRoot.current = true;
+    }
+
+    // console.log(rootContext.accordionState['expandedPanels'].has(itemState.index));
+  }, [rootContext.accordionState["expandedPanels"]]);
+
+  //開いているパネルの高さをwindowresize時に調整
+  useEffect(() => {
+    if (renderFlgRefResize.current) {
+      if(itemState["isExpanded"]) {
+        setPanelStyles((panelStyles) => ({
+          ...panelStyles,
+          height: getPanelHeight(itemState.panelDOM)
+        }));
+      }
+    } else {
+      renderFlgRefResize.current = true;
+    }
+  }, [rootContext.accordionState["checkWindowResize"]]);
 
   return (
     <Context.Provider
@@ -196,10 +214,12 @@ export const Provider: React.FC<Props> = (props) => {
   );
 };
 
-// function getPanelHeight(panel) {
-//   if (!panel) return;
-//   const panelHeight = panel.children[0].clientHeight;
-
-//   return panelHeight;
-// }
+function getPanelHeight(panel:React.RefObject<HTMLInputElement> | null): string {
+  if (panel === null) return ""
+  // console.log(panel.current.children[0])
+  const panelHeight = !(panel.current === null) 
+    ? panel.current.children[0].clientHeight
+    : ""
+  return `${panelHeight}px`;
+}
 

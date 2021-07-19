@@ -1,8 +1,5 @@
-
-
 import React, { useContext, useState, useRef } from "react";
 import Provider, { Context, InjectedAccordionState } from 'components/AccordionContext';
-import Sample from 'components/Sample';
 import AccordionItem from "components/AccordionItem";
 import AccordionTrigger from "components/AccordionTrigger";
 import AccordionPanel from "components/AccordionPanel";
@@ -48,27 +45,28 @@ const Accordion: React.FC<InjectedAccordionState> = (props) => {
           };
           Object.assign(options.accordionState, overrideOptions || {});
 
-          console.log(options.accordionState.duration)
-
           return (
             <>
               {/* <div className="Accordion">{childrenWithProps}</div> */}
               <div className="Accordion">
                 {options.accordionState.content.map((content, index) => {
                   return (
-                    <>
-                      <AccordionItem panelIndex={index} key={index}>
-                        <div className="AccordionItem__header">
-                          <AccordionTrigger>{content.title}</AccordionTrigger>
-                        </div>
-                        <AccordionPanel>
-                          <p>{content.detail}</p>
-                        </AccordionPanel>
-                      </AccordionItem>
-                    </>
+                    <AccordionItem panelIndex={index} key={index}>
+                      <div className="AccordionItem__header">
+                        <AccordionTrigger>{content.title}</AccordionTrigger>
+                      </div>
+                      <AccordionPanel>
+                        <div
+                          className="AccordionPanel__content"
+                          dangerouslySetInnerHTML={{
+                            __html: content.detail,
+                          }}
+                        ></div>
+                        {/* <p>{content.detail}</p> */}
+                      </AccordionPanel>
+                    </AccordionItem>
                   );
                 })}
-                <Sample />
               </div>
             </>
           );
