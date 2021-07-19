@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
 }
 
 .App-logo {
@@ -35,4 +35,56 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+p {
+  margin: 0;
+}
+
+.Accordion {
+  max-width: 600px;
+  width: 100%;
+  margin: 50px auto;
+}
+
+.AccordionItem__header {
+}
+
+.AccordionItem {
+  margin-bottom: 1em;
+  border: solid 1px #ccc;
+}
+
+.AccordionTrigger {
+  display: flex;
+  align-items: center;
+  padding: 0;
+	background: none;
+	border: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+  cursor: pointer;
+  width: 100%;
+  padding: 1em;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: left;
+  background: #eee;
+}
+.AccordionTrigger svg {
+  display: block;
+  margin-left: auto;
+
+}
+.AccordionTrigger[aria-expanded="false"] svg {
+  transform: rotate(-90deg);
+  transition: transform .2s;
+}
+.AccordionTrigger[aria-expanded="true"] svg {
+  transition: transform .2s;
+}
+
+.AccordionPanel__content {
+  padding: 1em;
 }
