@@ -2,6 +2,7 @@ import React, {useState, useContext, useRef, useEffect} from 'react'
 import { Provider, Context } from "./ItemContext";
 import { Context as  accordionContext} from "./AccordionContext";
 
+import * as styles from "styles/AccordionStyle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
@@ -48,7 +49,7 @@ const AccordionTrigger: React.FC = (props) => {
 
 
   return (
-    <button className="AccordionTrigger" type="button" onClick={toggleAccordion} {...context.triggerAttributes}>
+    <button css={styles.accordion_item__triger} type="button" onClick={toggleAccordion} {...context.triggerAttributes}>
       {props.children}
       <FontAwesomeIcon icon={itemExpanded ? faMinus : faPlus} />
     </button>

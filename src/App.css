@@ -41,21 +41,21 @@ p {
   margin: 0;
 }
 
-.Accordion {
+/* .Accordion {
   max-width: 600px;
   width: 100%;
   margin: 50px auto;
-}
+} */
 
 .AccordionItem__header {
 }
 
-.AccordionItem {
+/* .AccordionItem {
   margin-bottom: 1em;
   border: solid 1px #ccc;
-}
+} */
 
-.AccordionTrigger {
+/* .AccordionTrigger {
   display: flex;
   align-items: center;
   padding: 0;
@@ -76,15 +76,15 @@ p {
   display: block;
   margin-left: auto;
 
-}
-.AccordionTrigger[aria-expanded="false"] svg {
+} */
+/* .AccordionTrigger[aria-expanded="false"] svg {
   transform: rotate(-90deg);
   transition: transform .2s;
 }
 .AccordionTrigger[aria-expanded="true"] svg {
   transition: transform .2s;
-}
+} */
 
-.AccordionPanel__content {
+/* .AccordionPanel__content {
   padding: 1em;
-}
+} */

@@ -5,6 +5,8 @@ import AccordionTrigger from "components/AccordionTrigger";
 import AccordionPanel from "components/AccordionPanel";
 
 
+import * as styles from "styles/AccordionStyle";
+
 
 const Accordion: React.FC<InjectedAccordionState> = (props) => {
   // const childrenWithProps = React.Children.map(props.children, (child, i) => {
@@ -48,7 +50,7 @@ const Accordion: React.FC<InjectedAccordionState> = (props) => {
           return (
             <>
               {/* <div className="Accordion">{childrenWithProps}</div> */}
-              <div className="Accordion">
+              <div css={styles.accordion}>
                 {options.accordionState.content.map((content, index) => {
                   return (
                     <AccordionItem panelIndex={index} key={index}>
@@ -57,7 +59,7 @@ const Accordion: React.FC<InjectedAccordionState> = (props) => {
                       </div>
                       <AccordionPanel>
                         <div
-                          className="AccordionPanel__content"
+                          css={styles.accordion_item__panel_content}
                           dangerouslySetInnerHTML={{
                             __html: content.detail,
                           }}

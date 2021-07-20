@@ -1,6 +1,8 @@
 import React from "react";
 import { Provider, Context } from "./ItemContext";
 
+import * as styles from "styles/AccordionStyle";
+
 interface Props {
   panelIndex: number
 }
@@ -13,7 +15,7 @@ const AccordionItem: React.FC<Props> = (props) => {
           // console.log(options)
           return (
             <>
-              <div className="AccordionItem">{props.children}</div>
+              <div css={styles.accordion_item}>{props.children}</div>
             </>
           )
         }}
