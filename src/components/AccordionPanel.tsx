@@ -1,9 +1,9 @@
-import React, {useState, useContext, useRef, useEffect} from 'react'
-import { Context as hogehoge, InjectedItemState } from "./ItemContext";
+import React, {useContext, useRef, useEffect} from 'react'
+import { Context } from "./ItemContext";
 
 const AccordionPanel: React.FC = (props) => {
 
-  const context = useContext(hogehoge)
+  const context = useContext(Context)
   const paneleElement = useRef(null)
 
 

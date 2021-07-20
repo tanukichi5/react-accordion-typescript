@@ -1,5 +1,5 @@
-import React, {useState, useContext, useRef, useEffect} from 'react'
-import { Provider, Context } from "./ItemContext";
+import React, { useContext } from 'react'
+import { Context } from "./ItemContext";
 import { Context as  accordionContext} from "./AccordionContext";
 
 import * as styles from "styles/AccordionStyle";

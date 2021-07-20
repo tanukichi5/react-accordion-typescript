@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from "react";
+import React from "react";
 import Provider, { Context, InjectedAccordionState } from 'components/AccordionContext';
 import AccordionItem from "components/AccordionItem";
 import AccordionTrigger from "components/AccordionTrigger";

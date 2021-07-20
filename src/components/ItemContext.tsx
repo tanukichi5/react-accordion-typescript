@@ -136,10 +136,10 @@ export const Provider: React.FC<Props> = (props) => {
 
       //開閉時のコールバック関数実行
       if (itemState["isExpanded"]) {
-        if(onOpen != undefined)
+        if(onOpen !== undefined)
         onOpen(itemState.panelDOM);
       } else {
-        if(onClose != undefined)
+        if(onClose !== undefined)
         onClose(itemState.panelDOM);
       }
 
@@ -163,7 +163,7 @@ export const Provider: React.FC<Props> = (props) => {
   //falseは自分以外閉じる
   useEffect(() => {
     if (renderFlgRefRoot.current) {
-      if (rootContext.accordionState["expandedPanels"] != undefined)
+      if (rootContext.accordionState["expandedPanels"] !== undefined)
       if (rootContext.accordionState["expandedPanels"].has(itemState.index)) {
         setItemState((itemState) => ({
           ...itemState,
