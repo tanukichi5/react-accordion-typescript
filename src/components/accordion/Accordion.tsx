@@ -1,8 +1,8 @@
 import React from "react";
-import Provider, { Context, InjectedAccordionState } from 'components/AccordionContext';
-import AccordionItem from "components/AccordionItem";
-import AccordionTrigger from "components/AccordionTrigger";
-import AccordionPanel from "components/AccordionPanel";
+import Provider, { Context, InjectedAccordionState } from './AccordionContext';
+import AccordionItem from "./AccordionItem";
+import AccordionTrigger from "./AccordionTrigger";
+import AccordionPanel from "./AccordionPanel";
 
 
 import * as styles from "styles/AccordionStyle";

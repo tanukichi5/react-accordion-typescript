@@ -1,5 +1,5 @@
 import Reac, {useContext} from "react";
-import Provider, { Context } from 'components/AccordionContext';
+import Provider, { Context } from './AccordionContext';
 // import { InjectedContext } from 'components/AccordionContext';
 
 const Sample: React.FC = (InjectedContext) => {

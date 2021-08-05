@@ -1,7 +1,7 @@
 // import React from 'react';
 import './App.css';
 
-import Accordion from 'components/Accordion';
+import Accordion from 'components/accordion/Accordion';
 
 const pokemon_1 = [
   {
