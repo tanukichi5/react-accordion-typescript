@@ -19,7 +19,7 @@ const AccordionPanel: React.FC = (props) => {
   // console.log(paneleElement); 
 
   return (
-    <div ref={paneleElement} className="AccordionPanel" style={context.panelStyles} {...context.panelAttributes}>
+    <div ref={paneleElement} className="AccordionPanel" css={context.panelStyles.panel} {...context.panelAttributes}>
       {props.children}
     </div>
   );
