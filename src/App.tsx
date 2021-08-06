@@ -1,7 +1,10 @@
 // import React from 'react';
+import React, { useState } from "react";
 import './App.css';
+import './styles/modal.css';
 
 import Accordion from 'components/accordion/Accordion';
+import Modal from 'components/modal/Modal';
 
 const pokemon_1 = [
   {
@@ -26,11 +29,41 @@ function App() {
   function close() {
     console.log('閉じた')
   }
+  
+  const [hogeState, sethogeState] = useState({
+    expanded: false,
+  });
+  function modalToggle() {
+    sethogeState({
+      expanded: !hogeState.expanded
+    })
+  }
+
+  
+  // const [modalIsOpen, setIsOpen] = React.useState(false);
+
+  // function openModal() {
+  //   setIsOpen(true);
+  // }
+
+  // function closeModal() {
+  //   setIsOpen(false);
+  // }
+
 
   return (
     <div className="App">
+      <Modal id={"modal-1"} expanded={hogeState.expanded} sethogeState={sethogeState}>
+        <p>モーダル</p>
+        <button onClick={modalToggle}>閉じる</button>
+      </Modal>
+      {/* <Modal id={"modal-2"} expanded={hogeState.expanded} sethogeState={sethogeState}>
+        <p>ああああああああああああああああ</p>
+        <button onClick={modalToggle}>閉じる</button>
+      </Modal> */}
       <Accordion content={pokemon_1} defaultExpandedPanels={[0]} onOpen={open} onClose={close} />
       <Accordion content={pokemon_1} defaultExpandedPanels={[0,2]} multipleExpanded={false} />
+      <button onClick={modalToggle}>モーダル</button>
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
