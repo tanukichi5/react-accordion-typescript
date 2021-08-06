@@ -9,7 +9,7 @@ export interface InjectedModalState {
   sethogeState?:any;
   expanded: boolean;
   backFixed?: boolean;
-  closeClickOutSide?: boolean;
+  clickOutsideClose?: boolean;
   modalDOM?: React.RefObject<HTMLInputElement> | null,
 }
 
@@ -21,7 +21,7 @@ const Modal: React.FC<InjectedModalState> = (props) => {
     id:props.id,
     expanded: props.expanded,
     backFixed: true,
-    closeClickOutSide: true,
+    clickOutsideClose: !(props.clickOutsideClose === undefined) ? props.clickOutsideClose : true,
     modalDOM: modalElement
   });
 
@@ -31,6 +31,7 @@ const Modal: React.FC<InjectedModalState> = (props) => {
     setModalState({
       ...modalState,
       expanded: props.expanded,
+      // clickOutsideClose: props.clickOutsideClose,
       modalDOM: modalElement
     })
 
@@ -47,8 +48,10 @@ const Modal: React.FC<InjectedModalState> = (props) => {
 
     if(modalState.expanded) {
       handleOnKeydown.addEvent()
+      if(modalState.clickOutsideClose) handleOnClickOutSide.addEvent()
     } else {
       handleOnKeydown.removeEvent()
+      if(modalState.clickOutsideClose) handleOnClickOutSide.removeEvent()
     }
     
     //背景固定
@@ -57,6 +60,7 @@ const Modal: React.FC<InjectedModalState> = (props) => {
   }, [modalState.expanded]);
 
 
+  //Escキー : モーダル閉じる, Tabキー : モーダル内フォーカス移動
   const onKeydown = useCallback((event) => {
     // Escキー
     if (event.keyCode === 27) {
@@ -79,13 +83,34 @@ const Modal: React.FC<InjectedModalState> = (props) => {
     onKeydown
   );
 
-  
+  //モーダルの外側クリックで閉じる
+  const clickOutsideClose = useCallback((event) => {
+    if (!event.target.closest(`#${modalState.id}`)) {
+      setModalState({
+        ...modalState,
+        expanded: false,
+      })
+    }
+  }, []);
+
+  const handleOnClickOutSide = attachEvent(
+    document,
+    "click",
+    clickOutsideClose
+  );
+
+
+
+
   if (!modalState.expanded) return null
 
   return (
     <ModalPortal>
+      <div className="modal-overlay"></div>
       <div id={modalState.id} className="Modal" ref={modalElement}>
-        {props.children}
+        <div className="modal-content">
+          {props.children}
+        </div>
       </div>
     </ModalPortal>
   );
@@ -94,4 +119,5 @@ const Modal: React.FC<InjectedModalState> = (props) => {
 }
 
 export default Modal;
+
 
