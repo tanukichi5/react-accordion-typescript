@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useCallback} from "react";
+import ModalPortal from './ModalPortal'
 
 export interface InjectedModalState {
   id: string;
@@ -81,9 +82,11 @@ const Modal: React.FC<InjectedModalState> = (props) => {
   if (!modalState.expanded) return null
 
   return (
-    <div id={modalState.id} className="Modal">
-      {props.children}
-    </div>
+    <ModalPortal>
+      <div id={modalState.id} className="Modal">
+        {props.children}
+      </div>
+    </ModalPortal>
   );
 
 
