@@ -54,8 +54,12 @@ function App() {
   return (
     <div className="App">
       <Modal id={"modal-1"} expanded={hogeState.expanded} sethogeState={sethogeState}>
-        <p>モーダル</p>
-        <button onClick={modalToggle}>閉じる</button>
+        <div>
+          <p>モーダル</p>
+          <button onClick={modalToggle}>閉じる</button>
+          <button onClick={modalToggle}>閉じる</button>
+          <button onClick={modalToggle}>閉じる</button>
+        </div>
       </Modal>
       {/* <Modal id={"modal-2"} expanded={hogeState.expanded} sethogeState={sethogeState}>
         <p>ああああああああああああああああ</p>

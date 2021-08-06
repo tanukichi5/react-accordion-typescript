@@ -1,7 +1,8 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect, useCallback, useRef} from "react";
 import ModalPortal from './ModalPortal'
 import { attachEvent } from './helpers/attachEvent'
 import { backFixed } from './helpers/backFixed'
+import { retainFocus } from './helpers/retainFocus'
 
 export interface InjectedModalState {
   id: string;
@@ -9,15 +10,19 @@ export interface InjectedModalState {
   expanded: boolean;
   backFixed?: boolean;
   closeClickOutSide?: boolean;
+  modalDOM?: React.RefObject<HTMLInputElement> | null,
 }
 
 const Modal: React.FC<InjectedModalState> = (props) => {
+
+  const modalElement = useRef(null)
 
   const [modalState, setModalState] = useState({
     id:props.id,
     expanded: props.expanded,
     backFixed: true,
-    closeClickOutSide: true
+    closeClickOutSide: true,
+    modalDOM: modalElement
   });
 
   //propsが変更された場合
@@ -25,8 +30,11 @@ const Modal: React.FC<InjectedModalState> = (props) => {
 
     setModalState({
       ...modalState,
-      expanded: props.expanded
+      expanded: props.expanded,
+      modalDOM: modalElement
     })
+
+    console.log(modalState.modalDOM.current)
     
   }, [props.expanded]);
 
@@ -49,40 +57,34 @@ const Modal: React.FC<InjectedModalState> = (props) => {
   }, [modalState.expanded]);
 
 
-  const escFunction = useCallback((event) => {
+  const onKeydown = useCallback((event) => {
+    // Escキー
     if (event.keyCode === 27) {
-      // キーコードを判定して何かする。
       console.log("Esc Key is pressed!");
-      // props.sethogeState({
-      //   expanded: false
-      // })
       setModalState({
         ...modalState,
         expanded: false,
       })
+    }
+    // Tabキー
+    if (event.keyCode === 9) {
+      console.log("Tab Key is pressed!");
+      retainFocus(event, modalState.modalDOM.current)
     }
   }, []);
 
   const handleOnKeydown = attachEvent(
     document,
     "keydown",
-    escFunction
+    onKeydown
   );
 
-
   
-  // useEffect(() => {
-
-    
-    
-  // }, [modalState.expanded]);
-
-
   if (!modalState.expanded) return null
 
   return (
     <ModalPortal>
-      <div id={modalState.id} className="Modal">
+      <div id={modalState.id} className="Modal" ref={modalElement}>
         {props.children}
       </div>
     </ModalPortal>
