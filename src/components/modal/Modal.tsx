@@ -42,16 +42,22 @@ const Modal: React.FC<InjectedModalState> = (props) => {
   //modalStateが変更された場合
   useEffect(() => {
 
+    //親要素のstateを変更
     props.sethogeState({
       expanded: modalState.expanded
     })
 
+    const siteContent:Element = document.querySelector('.App') as Element
+
     if(modalState.expanded) {
       handleOnKeydown.addEvent()
       if(modalState.clickOutsideClose) handleOnClickOutSide.addEvent()
+      siteContent.setAttribute('aria-hidden', "true") //サイトのメイン部分をスクリーンリーダーなどから除外する
+
     } else {
       handleOnKeydown.removeEvent()
       if(modalState.clickOutsideClose) handleOnClickOutSide.removeEvent()
+      siteContent.removeAttribute('aria-hidden')
     }
     
     //背景固定
