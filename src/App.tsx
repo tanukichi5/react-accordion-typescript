@@ -32,9 +32,12 @@ function App() {
   
   const [hogeState, sethogeState] = useState({
     expanded: false,
+    // domHide: false,
+    animationType: "animation",
   });
   function modalToggle() {
     sethogeState({
+      ...hogeState,
       expanded: !hogeState.expanded
     })
   }
@@ -53,8 +56,8 @@ function App() {
 
   return (
     <div className="App">
-      <Modal id={"modal-1"} expanded={hogeState.expanded} sethogeState={sethogeState}>
-        <div>
+      <Modal id={"modal-1"} {...hogeState} sethogeState={sethogeState}>
+        <div className="aaaa">
           <p>モーダル</p>
           <button onClick={modalToggle}>閉じる</button>
           <button onClick={modalToggle}>閉じる</button>

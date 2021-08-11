@@ -1,3 +1,61 @@
+@keyframes modal-opened {
+  0% {
+      opacity: 0;
+      visibility: visible;
+  }
+  100% {
+      opacity: 1;
+      visibility: visible;
+  }
+}
+@keyframes modal-closed {
+  0% {
+      opacity: 1;
+      visibility: visible;
+  }
+  100% {
+      opacity: 0;
+      visibility: hidden;
+  }
+}
+
+.modal {
+  height: 100%;
+  left: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .6s;
+}
+.modal[aria-hidden="true"] {
+  animation-name: modal-closed;
+  animation-duration: .6s;
+  animation-timing-function: ease;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+
+  /* opacity: 0;
+  visibility: hidden; */
+
+}
+.modal[aria-hidden="false"] {
+  animation-name: modal-opened;
+  animation-duration: .6s;
+  animation-timing-function: ease;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+
+  /* opacity: 1;
+  visibility: visible; */
+
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -12,8 +70,12 @@
   z-index: 1;
 }
 
-.Modal {
-  position: fixed;
+.modal-content {
+}
+
+
+.aaaa {
+  position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
@@ -28,8 +90,5 @@
   padding: 50px;
   /* background: #ccc; */
   z-index: 10;
-}
 
-
-.modal-content {
 }

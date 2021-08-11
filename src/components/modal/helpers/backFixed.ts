@@ -14,7 +14,7 @@ export function backFixed(fixed:boolean):any {
     ? getScrollY()
     : parseInt(scrollElement.style.top);
 
-  console.log(window.scrollY)
+  // console.log(window.scrollY)
 
   //固定用CSS
   const styles:any = {
