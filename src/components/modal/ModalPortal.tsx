@@ -1,16 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+interface Props {
+  portalTarget: string
+}
 
-console.log(document.getElementById('root') as Element)
-
-const ModalPortal: React.FC = ({
-  children,
-}) => {
+const ModalPortal: React.FC<Props> = (
+  props,
+) => {
   return (
     ReactDOM.createPortal(
-      children,
-      document.getElementById('root') as Element
+      props.children,
+      document.querySelector(props.portalTarget) as Element
     )
   )
 }

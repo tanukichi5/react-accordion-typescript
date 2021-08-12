@@ -11,6 +11,8 @@ import * as styles from "styles/ModalStyle";
 
 export interface InjectedModalState {
   id: string;
+  portalTarget?: string;
+  siteContent: string;
   sethogeState?:any;
   expanded: boolean;
   backFixed?: boolean;
@@ -32,6 +34,8 @@ const Modal: React.FC<InjectedModalState> = (props) => {
 
   const [modalState, setModalState] = useState({
     id:props.id,
+    portalTarget: !(props.portalTarget === undefined) ? props.portalTarget : "body",
+    siteContent: !(props.siteContent === undefined) ? props.siteContent : "#root",
     expanded: props.expanded,
     backFixed: !(props.backFixed === undefined) ? props.backFixed : true,
     clickOutsideClose: !(props.clickOutsideClose === undefined) ? props.clickOutsideClose : true,
@@ -80,7 +84,7 @@ const Modal: React.FC<InjectedModalState> = (props) => {
       expanded: modalState.expanded
     })
 
-    const siteContent:Element = document.querySelector('.App') as Element
+    const siteContent:Element = document.querySelector(modalState.siteContent) as Element
 
     if(modalState.expanded) {
       //モーダル開いた時
@@ -222,7 +226,7 @@ const Modal: React.FC<InjectedModalState> = (props) => {
   if (modalState.domHide && modalState.modalSource) return null
 
   return (
-    <ModalPortal>
+    <ModalPortal portalTarget={modalState.portalTarget}>
       <div id={modalState.id} css={modalStyle_container} className={`modal`} tabIndex={modalState.tabindex} aria-hidden={modalState['aria-hidden']} ref={modalElement}>
         <div className="modal-content">
           {props.children}
