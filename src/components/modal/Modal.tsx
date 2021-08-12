@@ -6,6 +6,9 @@ import { attachEvent } from './helpers/attachEvent'
 import { backFixed } from './helpers/backFixed'
 import { retainFocus } from './helpers/retainFocus'
 
+import { css, keyframes } from '@emotion/react'
+import * as styles from "styles/ModalStyle";
+
 export interface InjectedModalState {
   id: string;
   sethogeState?:any;
@@ -20,7 +23,7 @@ export interface InjectedModalState {
   domHide?: boolean,
   animationType?: string,
   modalSource?: boolean,
-
+  customStyles?: any
 }
 
 
@@ -41,9 +44,24 @@ const Modal: React.FC<InjectedModalState> = (props) => {
     closedClass: "is-close",
     tabindex: -1,
     domHide: !(props.domHide === undefined) ? props.domHide : true,
-    animationType: !(props.animationType === undefined) ? props.animationType : "transition",
-    modalSource: true
+    animationType: !(props.animationType === undefined) ? props.animationType : "animation",
+    modalSource: true,
+    customStyles: !(props.customStyles === undefined) ? props.customStyles : {},
   });
+
+  //モーダル枠のスタイル設定
+  const modalStyle_container = !(modalState.customStyles.container === undefined)
+  ? modalState.customStyles.container
+  : styles.modal
+
+  //モーダルオーバーレイのスタイル設定
+  const modalStyle_overlay = !(modalState.customStyles.overlay === undefined)
+  ? modalState.customStyles.overlay
+  : styles.modal_overlay
+
+  // const modalStyle_overlay = css`
+  //   ${!(modalState.customStyles.overlay === undefined) ? modalState.customStyles.overlay : modal_overlay}
+  //   `
 
   //propsが変更された場合
   useEffectCustom(() => {
@@ -204,11 +222,11 @@ const Modal: React.FC<InjectedModalState> = (props) => {
 
   return (
     <ModalPortal>
-      <div id={modalState.id} className={`modal`} tabIndex={modalState.tabindex} aria-hidden={modalState['aria-hidden']} ref={modalElement}>
+      <div id={modalState.id} css={modalStyle_container} className={`modal`} tabIndex={modalState.tabindex} aria-hidden={modalState['aria-hidden']} ref={modalElement}>
         <div className="modal-content">
           {props.children}
         </div>
-        <div className="modal-overlay"></div>
+        <div className="modal-overlay" css={modalStyle_overlay}></div>
       </div>
     </ModalPortal>
   );

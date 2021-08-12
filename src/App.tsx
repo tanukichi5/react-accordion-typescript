@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import './App.css';
 import './styles/modal.css';
 
+import { css, keyframes } from '@emotion/react'
+
 import Accordion from 'components/accordion/Accordion';
 import Modal from 'components/modal/Modal';
 
@@ -29,11 +31,49 @@ function App() {
   function close() {
     console.log('閉じた')
   }
+
+  const customStyles = {
+    container: css`
+      height: 100%;
+      left: 0;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transition: all .6s;
+      &[aria-hidden="true"] {
+        opacity: 0;
+        visibility: hidden;
+      }
+      &[aria-hidden="false"] {
+        opacity: 1;
+        visibility: visible;
+      }
+    `,
+    overlay: css`
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      opacity: 0.8;
+      z-index: 1;
+    `,
+  }
+
   
   const [hogeState, sethogeState] = useState({
     expanded: false,
     // domHide: false,
-    animationType: "animation",
+    animationType: "transition",
+    customStyles: customStyles,
   });
   function modalToggle() {
     sethogeState({
