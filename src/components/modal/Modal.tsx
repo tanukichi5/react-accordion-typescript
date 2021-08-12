@@ -1,12 +1,12 @@
 import React, {useState, useEffect, useCallback, useRef} from "react";
 import ModalPortal from './ModalPortal'
-import ModalDelay from './ModalDelay'
-import useEffectCustom from "./helpers/useEffectCustom";
+// import ModalDelay from './ModalDelay'
+// import useEffectCustom from "./helpers/useEffectCustom";
 import { attachEvent } from './helpers/attachEvent'
 import { backFixed } from './helpers/backFixed'
 import { retainFocus } from './helpers/retainFocus'
 
-import { css, keyframes } from '@emotion/react'
+// import { css, keyframes } from '@emotion/react'
 import * as styles from "styles/ModalStyle";
 
 export interface InjectedModalState {
@@ -17,8 +17,6 @@ export interface InjectedModalState {
   clickOutsideClose?: boolean;
   modalDOM?: React.RefObject<HTMLInputElement> | null,
   "aria-hidden"?: boolean,
-  openedClass?: string,
-  closedClass?: string,
   tabindex?: number,
   domHide?: boolean,
   animationType?: string,
@@ -31,22 +29,19 @@ export interface InjectedModalState {
 const Modal: React.FC<InjectedModalState> = (props) => {
 
   const modalElement = useRef(null)
-  let modalSource = false
 
   const [modalState, setModalState] = useState({
     id:props.id,
     expanded: props.expanded,
-    backFixed: true,
+    backFixed: !(props.backFixed === undefined) ? props.backFixed : true,
     clickOutsideClose: !(props.clickOutsideClose === undefined) ? props.clickOutsideClose : true,
-    modalDOM: modalElement,
-    "aria-hidden": true,
-    openedClass: "is-open",
-    closedClass: "is-close",
+    "aria-hidden": !props.expanded,
     tabindex: -1,
-    domHide: !(props.domHide === undefined) ? props.domHide : true,
     animationType: !(props.animationType === undefined) ? props.animationType : "animation",
-    modalSource: true,
     customStyles: !(props.customStyles === undefined) ? props.customStyles : {},
+    domHide: !(props.domHide === undefined) ? props.domHide : true,
+    modalSource: true,
+    modalDOM: modalElement,
   });
 
   //モーダル枠のスタイル設定
@@ -59,12 +54,9 @@ const Modal: React.FC<InjectedModalState> = (props) => {
   ? modalState.customStyles.overlay
   : styles.modal_overlay
 
-  // const modalStyle_overlay = css`
-  //   ${!(modalState.customStyles.overlay === undefined) ? modalState.customStyles.overlay : modal_overlay}
-  //   `
 
   //propsが変更された場合
-  useEffectCustom(() => {
+  useEffect(() => {
 
     setModalState({
       ...modalState,
@@ -81,7 +73,7 @@ const Modal: React.FC<InjectedModalState> = (props) => {
 
 
   //modalStateが変更された場合
-  useEffectCustom(() => {
+  useEffect(() => {
 
     //親要素のstateを変更
     props.sethogeState({
@@ -91,12 +83,23 @@ const Modal: React.FC<InjectedModalState> = (props) => {
     const siteContent:Element = document.querySelector('.App') as Element
 
     if(modalState.expanded) {
-      //モーダルオープン
-      handleOnKeydown.addEvent()
-      // domHideEvent.addEvent()
-      if(!modalState.modalSource) domHideEvent.removeEvent()
-      if(modalState.clickOutsideClose) handleOnClickOutSide.addEvent()
-      siteContent.setAttribute('aria-hidden', "true") //サイトのメイン部分をスクリーンリーダーなどから除外する
+      //モーダル開いた時
+      console.log("開いた")
+
+      //tabやescキーでのイベントを付与
+      if(!(handleOnKeydown === undefined))
+        handleOnKeydown.addEvent()
+
+      //モーダルの外側をクリックで閉じるイベントを付与
+      if(modalState.clickOutsideClose && !(handleOnClickOutSide === undefined))
+        handleOnClickOutSide.addEvent()
+
+      //"transition"や"animation"終了時にDOMを非表示にするイベントを削除
+      // if(!(domHideEvent === undefined))
+      //   domHideEvent.removeEvent()
+
+      //サイトのメイン部分をスクリーンリーダーなどから除外する
+      siteContent.setAttribute('aria-hidden', "true") 
 
       setModalState({
         ...modalState,
@@ -104,10 +107,22 @@ const Modal: React.FC<InjectedModalState> = (props) => {
       })
       
     } else {
-      //モーダルクローズ
-      handleOnKeydown.removeEvent()
-      if(modalState.domHide && modalState.modalDOM) domHideEvent.addEvent()
-      if(modalState.clickOutsideClose) handleOnClickOutSide.removeEvent()
+      //モーダルが閉じた時
+      console.log("閉じた")
+
+      //tabやescキーでのイベントを削除
+      if(!(handleOnKeydown === undefined))
+        handleOnKeydown.removeEvent()
+
+      //モーダルの外側をクリックで閉じるイベントを削除
+      if(modalState.clickOutsideClose && !(handleOnClickOutSide === undefined))
+        handleOnClickOutSide.removeEvent()
+
+      //"transition"や"animation"終了時にDOMを非表示にするイベントを付与
+      if(!(domHideEvent === undefined)) 
+        domHideEvent.addEvent()
+
+      //サイトのメイン部分をスクリーンリーダーなどを有効にする
       siteContent.removeAttribute('aria-hidden')
     }
     
@@ -136,6 +151,7 @@ const Modal: React.FC<InjectedModalState> = (props) => {
     "keydown",
     onKeydown
   );
+  //------------------------------
 
   //モーダルの外側クリックで閉じる
   const clickOutsideClose = useCallback((event) => {
@@ -150,20 +166,24 @@ const Modal: React.FC<InjectedModalState> = (props) => {
     "click",
     clickOutsideClose
   );
+  //------------------------------
 
 
   //cssアニメーション終了時にモーダルのDOMを非表示
   const animationEndDomHide = useCallback((event) => {
-    if(!modalState.expanded) {
-      console.log("アニメーション終了")
-      console.log(modalState.domHide)
-      setModalState({
-        ...modalState,
-        modalSource: true,
-      })
-    }
+    console.log("アニメーション終了")
 
-  }, []);
+    setModalState({
+      ...modalState,
+      expanded: false,
+      modalSource: true,
+    })
+
+    //"transition"や"animation"終了時にDOMを非表示にするイベントを削除
+    if(!(domHideEvent === undefined))
+        domHideEvent.removeEvent()
+
+  }, [modalState.expanded]);
 
   const animationType = (v:string) => {
     let type;
@@ -185,6 +205,7 @@ const Modal: React.FC<InjectedModalState> = (props) => {
     animationType(modalState.animationType),
     animationEndDomHide
   );
+  //------------------------------
 
 
 
@@ -196,26 +217,6 @@ const Modal: React.FC<InjectedModalState> = (props) => {
       modalSource: false,
     })
   }, []);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setModalState({
-  //       ...modalState,
-  //       stateClass: modalState.expanded ? modalState.openedClass : modalState.closedClass,
-  //     })
-      
-  //   }, 1000);
-  // }, [modalState.expanded]);
-
-
-  // function hoge() {
-  //   let modalStateClass = "";
-    // setTimeout(() => {
-
-      
-    // }, 1000);
-  //   return modalStateClass
-  // }
 
 
   if (modalState.domHide && modalState.modalSource) return null

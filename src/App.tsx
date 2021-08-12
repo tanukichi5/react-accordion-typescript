@@ -62,7 +62,7 @@ function App() {
       align-items: center;
       width: 100%;
       height: 100%;
-      background: #fff;
+      background: #ffd3d3;
       opacity: 0.8;
       z-index: 1;
     `,
@@ -71,9 +71,11 @@ function App() {
   
   const [hogeState, sethogeState] = useState({
     expanded: false,
+    // backFixed: false,
     // domHide: false,
-    animationType: "transition",
-    customStyles: customStyles,
+    clickOutsideClose: true,
+    // animationType: "transition",
+    // customStyles: customStyles,
   });
   function modalToggle() {
     sethogeState({
