@@ -3,6 +3,7 @@ import React, { useState, createContext } from "react";
 //tabStateのインターフェース
 export interface InjectedTabState {
   hoge?: string;
+  expandedPanel?: number;
 }
 
 //createContextでcontextを作成
@@ -18,7 +19,8 @@ const Provider: React.FC = (props) => {
 
   //useStateでstateを作成
   const [tabState, setTabState] = useState<InjectedTabState>({
-    hoge: "ほげ"
+    hoge: "ほげ",
+    expandedPanel: 0,
   });
 
 

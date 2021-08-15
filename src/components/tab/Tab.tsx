@@ -2,6 +2,11 @@ import React from "react";
 import Provider, { Context, InjectedTabState } from './TabContext';
 
 const Tab: React.FC<InjectedTabState> = (props) => {
+  const childrenWithProps = React.Children.map(props.children, (child:any, i) => {
+    // 各子要素をクローンしつつ index を渡す
+    // console.log(i)
+    return React.cloneElement(child, { panelIndex: i });
+  });
   return (
     <Provider>
       <Context.Consumer>
@@ -17,7 +22,9 @@ const Tab: React.FC<InjectedTabState> = (props) => {
 
           return (
             <>
-              {value.tabState.hoge}
+              <div className="Tab">{childrenWithProps}</div>
+              {/* {value.tabState.hoge}
+              {props.children} */}
             </>
           )
         }}

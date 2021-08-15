@@ -8,6 +8,10 @@ import { css, keyframes } from '@emotion/react'
 import Accordion from 'components/accordion/Accordion';
 import Modal from 'components/modal/Modal';
 import Tab from 'components/tab/Tab';
+import TabList from 'components/tab/TabList';
+import TabListItem from 'components/tab/TabListItem';
+import TabContent from 'components/tab/TabContent';
+import TabPanel from 'components/tab/TabPanel';
 
 const pokemon_1 = [
   {
@@ -115,7 +119,33 @@ function App() {
       </Modal> */}
       <Accordion content={pokemon_1} defaultExpandedPanels={[0]} onOpen={open} onClose={close} />
       <Accordion content={pokemon_1} defaultExpandedPanels={[0,2]} multipleExpanded={false} />
-      <Tab hoge={"ああああ"} />
+      <Tab hoge={"いいいい"}>
+
+        <TabList>
+          <TabListItem />
+          <TabListItem />
+        </TabList>
+
+        <TabContent>
+          <TabPanel />
+          <TabPanel />
+        </TabContent>
+        
+      </Tab>
+      
+      <Tab hoge={"いいいい"}>
+
+        <TabList>
+          <TabListItem />
+          <TabListItem />
+        </TabList>
+
+        <TabContent>
+          <TabPanel />
+          <TabPanel />
+        </TabContent>
+        
+      </Tab>
       <button onClick={modalToggle}>モーダル</button>
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
