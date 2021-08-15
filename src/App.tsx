@@ -7,6 +7,7 @@ import { css, keyframes } from '@emotion/react'
 
 import Accordion from 'components/accordion/Accordion';
 import Modal from 'components/modal/Modal';
+import Tab from 'components/tab/Tab';
 
 const pokemon_1 = [
   {
@@ -114,6 +115,7 @@ function App() {
       </Modal> */}
       <Accordion content={pokemon_1} defaultExpandedPanels={[0]} onOpen={open} onClose={close} />
       <Accordion content={pokemon_1} defaultExpandedPanels={[0,2]} multipleExpanded={false} />
+      <Tab hoge={"ああああ"} />
       <button onClick={modalToggle}>モーダル</button>
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
