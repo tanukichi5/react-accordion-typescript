@@ -36,7 +36,6 @@ const TabPanel: React.FC<Props> = (props) => {
     <div 
       id={`tab-${tabContext.tabState.uuid}-${tabPanelState.index}`}
       className="tab-panel" aria-hidden={!tabPanelState.expanded}
-      tabIndex={tabPanelState.expanded ? 0 : -1}
       style={tabPanelState.expanded ? styles.block : styles.none}
     >
       {/* {tabContext.tabState.hoge} */}
