@@ -1,8 +1,14 @@
 import React, { useState, createContext } from "react";
+import uuid from "./helpers/uuid";
+
+interface Props {
+  defaultExpandedPanel?: number,
+}
 
 //tabStateのインターフェース
 export interface InjectedTabState {
   hoge?: string;
+  uuid?: string;
   expandedPanel?: number;
 }
 
@@ -15,12 +21,14 @@ export const Context = createContext(
 );
 
 
-const Provider: React.FC = (props) => {
+const Provider: React.FC<Props> = (props) => {
+  // const abc = uuid()
 
   //useStateでstateを作成
   const [tabState, setTabState] = useState<InjectedTabState>({
     hoge: "ほげ",
-    expandedPanel: 0,
+    uuid: uuid(),
+    expandedPanel: props.defaultExpandedPanel ? props.defaultExpandedPanel : 0,
   });
 
 

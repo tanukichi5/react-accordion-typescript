@@ -88,3 +88,9 @@ p {
 /* .AccordionPanel__content {
   padding: 1em;
 } */
+
+.l-content {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
