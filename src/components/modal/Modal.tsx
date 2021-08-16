@@ -12,7 +12,7 @@ import * as styles from "styles/ModalStyle";
 export interface InjectedModalState {
   id: string;
   portalTarget?: string;
-  siteContent: string;
+  siteContent?: string;
   sethogeState?:any;
   expanded: boolean;
   backFixed?: boolean;
