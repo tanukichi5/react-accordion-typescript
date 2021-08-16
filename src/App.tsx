@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import './App.css';
 import './styles/modal.css';
+import './styles/tab.css';
 
 import { css, keyframes } from '@emotion/react'
 
@@ -119,33 +120,46 @@ function App() {
       </Modal> */}
       <Accordion content={pokemon_1} defaultExpandedPanels={[0]} onOpen={open} onClose={close} />
       <Accordion content={pokemon_1} defaultExpandedPanels={[0,2]} multipleExpanded={false} />
-      <Tab hoge={"いいいい"}>
 
-        <TabList>
-          <TabListItem />
-          <TabListItem />
-        </TabList>
+      <div className="l-content">
+        <Tab hoge={"タブ"} expandedPanel={1}>
 
-        <TabContent>
-          <TabPanel />
-          <TabPanel />
-        </TabContent>
-        
-      </Tab>
-      
-      <Tab hoge={"いいいい"}>
+          <TabList>
+            <TabListItem />
+            <TabListItem />
+            <TabListItem />
+          </TabList>
 
-        <TabList>
-          <TabListItem />
-          <TabListItem />
-        </TabList>
+          <TabContent>
+            <TabPanel>
+              パネル1の内容です。
+            </TabPanel>
+            <TabPanel>
+              サンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキスト
+            </TabPanel>
+            <TabPanel>
+              ああああああああああああああああ
+            </TabPanel>
+          </TabContent>
+          
+        </Tab>
 
-        <TabContent>
-          <TabPanel />
-          <TabPanel />
-        </TabContent>
-        
-      </Tab>
+        <br />
+
+        <Tab hoge={"タブ"}>
+
+          <TabList>
+            <TabListItem />
+            <TabListItem />
+          </TabList>
+
+          <TabContent>
+            <TabPanel />
+            <TabPanel />
+          </TabContent>
+          
+        </Tab>
+      </div>
       <button onClick={modalToggle}>モーダル</button>
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />

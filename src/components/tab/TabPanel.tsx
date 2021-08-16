@@ -2,8 +2,17 @@ import React, {useState, useEffect, useContext} from 'react'
 import { Context } from "./TabContext";
 
 interface Props {
-  tabPanelIndex?: number
+  tabPanelIndex?: number,
 }
+
+const styles: {[key: string]: React.CSSProperties} = {
+  block: {
+    display: 'block',
+  },
+  none: {
+    display: 'none',
+  }
+};
 
 const TabPanel: React.FC<Props> = (props) => {
 
@@ -24,8 +33,14 @@ const TabPanel: React.FC<Props> = (props) => {
   }, [tabContext.tabState.expandedPanel]);
 
   return (
-    <div className="tab-panel" aria-hidden={!tabPanelState.expanded} tabIndex={tabPanelState.expanded ? 0 : -1}>
+    <div 
+      id={`tab-${tabContext.tabState.uuid}-${tabPanelState.index}`}
+      className="tab-panel" aria-hidden={!tabPanelState.expanded}
+      tabIndex={tabPanelState.expanded ? 0 : -1}
+      style={tabPanelState.expanded ? styles.block : styles.none}
+    >
       {/* {tabContext.tabState.hoge} */}
+      {props.children}
       <p>
           現在開いているパネル : {tabContext.tabState.expandedPanel}
       </p>

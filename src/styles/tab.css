@@ -1,0 +1,45 @@
+/* タブ ボタン */
+.tab-list {
+  display: flex;
+}
+
+.tab-list__item {
+  flex: 1;
+}
+.tab-list__item:not(:first-child) {
+  margin-left: 5px;
+}
+
+.tab-button {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  background: #eee;
+  border: solid 2px #ccc;
+  cursor: pointer;
+
+	background: none;
+	/* border: none; */
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+.tab-button[aria-selected="true"] {
+  background: #3ac8ff;
+}
+/* タブ ボタン */
+
+
+/* タブ パネル */
+.tab-content {
+  margin-top: 20px;
+}
+
+.tab-panel {
+  padding: 20px 15px;
+  border: 1px solid #eee;
+}
+.tab-panel[aria-hidden="true"] {
+  display: none;
+}
+/* ===============タブ パネル */

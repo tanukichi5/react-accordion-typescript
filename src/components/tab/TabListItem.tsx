@@ -28,17 +28,22 @@ const TabListItem: React.FC<Props> = (props) => {
   const tabSwitch = () => {
     tabContext.setTabState(tabState => ({
       ...tabState,
-      expandedPanel: tabListItemState.index
+      expandedPanel: tabListItemState.index,
+      hoge: "aaaaa",
     }));
   }
 
   return (
-    <div className="tab-list__item" aria-selected={tabListItemState.expanded}>
-      <button type="button" onClick={tabSwitch}>
+    <div className="tab-list__item">
+      <button
+        type="button" onClick={tabSwitch}
+        className="tab-button"
+        aria-selected={tabListItemState.expanded}
+        aria-controls={`tab-${tabContext.tabState.uuid}-${tabListItemState.index}`}>
         タブ : {tabListItemState.index}
       </button>
       {/* {tabListItemState.index} */}
-      {tabContext.tabState.hoge}
+      {/* {tabContext.tabState.hoge} */}
     </div>
   );
 }

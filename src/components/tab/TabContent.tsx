@@ -1,11 +1,13 @@
 import React, {useContext} from 'react'
 import { Context } from "./TabContext";
 
-// interface Props {
-//   panelIndex?: number
-// }
+interface Props {
+  defo?: number
+}
 
-const TabContent: React.FC = (props) => {
+const TabContent: React.FC<Props> = (props) => {
+
+  console.log(props.defo )
 
   const childrenWithProps = React.Children.map(props.children, (child:any, i) => {
     // 各子要素をクローンしつつ index を渡す
